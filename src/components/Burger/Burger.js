@@ -10,9 +10,15 @@ const burger = props => {
         return [...Array( props.ingridients[igKey] )].map( (_, i) => {
             return <BurgerIngridient key={igKey + i} type={igKey}/>
         } );
-    } );
+    } )
+    .reduce((array, element) => {
+        return array.concat(element)
+    }, [] );
+
+    if (transformedIngridients.length === 0) {
+        transformedIngridients =  <p>Error con los ingredientes</p>
+    } 
     
-    console.log(transformedIngridients);
     return ( 
         <div className={classes.Burger}>
             <BurgerIngridient type="bread-top"/>
