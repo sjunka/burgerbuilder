@@ -21,14 +21,35 @@ class BurgerBuilder extends Component {
             salad: 0,
         },
         totalPrice: 5, 
+
+        purchasable : false
     }
+
+    
+    updatePurchaseState (ingredientes) {
+        
+        //compraValida permite validar si hay ingredientes dentro del arreglo 
+        //actualiza el estado de purchasable
+    
+        const compraValida = Object.keys(ingredientes)
+        .map( ingredienteKey => {
+            return ingredientes[ingredienteKey];
+        } )
+        .reduce( ( compraValida, elementoIterado ) => {
+            return compraValida + elementoIterado;
+        }, 0 );
+
+        this.setState({
+            purchasable : compraValida > 0 
+        });
+    }
+ 
 
     addIngredientHandler = type => {
 
+        //Metodo para agregar ingredientes a la orden de compra 
         
         const valorAnterior = this.state.ingredients[type];
-
-        console.log(valorAnterior); 
 
         const valorNuevo = valorAnterior + 1; 
 
@@ -50,20 +71,73 @@ class BurgerBuilder extends Component {
                 totalPrice: precioNuevo
             }
         );
+
+        //Permite realizar compra
+
+        this.updatePurchaseState(nuevoIngrediente);
     }
 
     removeIngredient  = type => {
+          
+        //Metodo para remover ingredientes de la orden de compra 
 
+        const valorAnterior = this.state.ingredients[type];
+
+        //Validacion; Existen ingredientes en la orden, si no hay salir
+
+        if (valorAnterior <= 0) {
+            return;
+        }
+        
+        const valorNuevo = valorAnterior - 1; 
+
+        const nuevoIngrediente = {
+            ...this.state.ingredients,
+        };
+        
+        nuevoIngrediente[type] = valorNuevo;
+
+        const valorUnitario = INGREDIENT_PRICES[type];
+
+        const precioAnterior = this.state.totalPrice;
+
+        const precioNuevo = precioAnterior - valorUnitario ;
+
+        this.setState(
+            {
+                ingredients : nuevoIngrediente,
+                totalPrice: precioNuevo
+            }
+        );
+
+         //Permite realizar compra
+
+         this.updatePurchaseState(nuevoIngrediente);
     }
     render (){
+
+        let disabledInfo = {
+            ...this.state.ingredients
+        };
+
+        // Validacion: Esta vacio algun ingrediente?: true - false
+
+        for ( let key in disabledInfo ){
+             disabledInfo[key] =  disabledInfo[key] <= 0
+        }
+
+        console.log(disabledInfo);
         return (
             <Aux>
                 <Burger ingridients = {this.state.ingredients} />
                 <BuildControls
-                    agregarIngrediente = {this.addIngredientHandler}
+                    agregarIngrediente = { this.addIngredientHandler }
+                    removerIngrediente = { this.removeIngredient }
+                    disabled = { disabledInfo }
+                    hamburguerPrice = { this.state.totalPrice }
+                    purchasable = { this.state.purchasable }
                 />
             </Aux>
-                
         );
     }
 }

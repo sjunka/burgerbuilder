@@ -8,11 +8,15 @@ const buildControl = props => (
         <div className={classes.Label}>
             {props.label}
         </div>
-        <button className={classes.Less}>Less</button>
+        <button
+            className={classes.Less}
+            onClick={props.remover}
+            disabled = { props.disabled }
+            >Eliminar</button>
         <button 
-        className={classes.More}
-        onClick = {props.agregar}
-        >More</button>
+            className={classes.More}
+            onClick = {props.agregar}
+        >Agregar</button>
     </div>
 );
 

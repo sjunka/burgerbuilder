@@ -17,14 +17,27 @@ const controls = [
 
 const buildControls = props => (
     <div className={classes.BuildControls}>
-    {controls.map( control => {
-       return  <BuilldControl 
-        key={control.label} 
-        label={control.label}
-        type = {control.type}
-        agregar = { () => props.agregarIngrediente(control.type) }
-         />
-    })}
+
+        <p>El precio de la hamburguesa: <strong>{props.hamburguerPrice.toFixed(2)}</strong></p>
+
+        {controls.map( control => {
+        return  <BuilldControl 
+            key={control.label} 
+            label={control.label}
+            type = {control.type}
+            agregar = { ( ) => props.agregarIngrediente(control.type) }
+            remover = { ( ) => props.removerIngrediente(control.type) }
+            disabled = { props.disabled[control.type] }
+            />
+        })}
+
+        <button 
+        className={ classes.OrderButton }
+        disabled = { !props.purchasable } 
+        >
+            Comprar 
+        </button>
+
     </div>
 );
 

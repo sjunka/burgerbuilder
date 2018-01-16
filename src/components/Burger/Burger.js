@@ -16,7 +16,7 @@ const burger = props => {
     }, [] );
 
     if (transformedIngridients.length === 0) {
-        transformedIngridients =  <p>Error con los ingredientes</p>
+        transformedIngridients =  <p>Agregar ingredientes a la hamburguesa</p>
     } 
     
     return ( 
