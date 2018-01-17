@@ -27,6 +27,10 @@ class BurgerBuilder extends Component {
     hacerCheckout: false
   };
 
+  modoCheckoutContinuar = () => {
+    alert("se comprola tales papo");
+  };
+
   cerrarModoCheckout = () => {
     this.setState({ hacerCheckout: false });
   };
@@ -133,7 +137,12 @@ class BurgerBuilder extends Component {
           mostrarModal={this.state.hacerCheckout}
           cerrarModal={this.cerrarModoCheckout}
         >
-          <OrderSummary ingredientes={this.state.ingredients} />
+          <OrderSummary
+            ingredientes={this.state.ingredients}
+            cancelarCompra={this.cerrarModoCheckout}
+            aceptarCompra={this.modoCheckoutContinuar}
+            hamburguerPrice={this.state.totalPrice}
+          />
         </Modal>
         <Burger ingridients={this.state.ingredients} />
         <BuildControls
