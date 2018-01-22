@@ -1,39 +1,44 @@
-import React from "react";
-import Aux from "../../../hoc/aux";
+import React, { Component } from "react";
+
+import Aux from "../../../hoc/Aux/Aux";
+
 import Button from "../../UI/Button/Button";
 
-const orderSumary = props => {
-  const totalIngredientes = Object.keys(props.ingredientes).map(
-    ingredienteKey => {
-      return (
-        <li key={ingredienteKey}>
-          <span style={{ textTransform: "capitalize" }}>
-            {ingredienteKey}: {props.ingredientes[ingredienteKey]}
-          </span>
-        </li>
-      );
-    }
-  );
+class OrderSumary extends Component {
+  state = {};
 
-  return (
-    <Aux>
-      <h3>Tu pedido es el siguiente:</h3>
-      <p>La especialidad de la casa solo para ti: </p>
-      <ul>{totalIngredientes}</ul>
-      <p>
-        El valor total de la compra:{" "}
-        <strong>{props.hamburguerPrice.toFixed(2)}</strong>
-      </p>
-      <p>Continuar a Checkout pasarela de pago</p>
+  render() {
+    const totalIngredientes = Object.keys(this.props.ingredientes).map(
+      ingredienteKey => {
+        return (
+          <li key={ingredienteKey}>
+            <span style={{ textTransform: "capitalize" }}>
+              {ingredienteKey}: {this.props.ingredientes[ingredienteKey]}
+            </span>
+          </li>
+        );
+      }
+    );
 
-      <Button clicked={props.cancelarCompra} btnType="Danger">
-        Cancelar
-      </Button>
-      <Button clicked={props.aceptarCompra} btnType="Success">
-        Continuar
-      </Button>
-    </Aux>
-  );
-};
+    return (
+      <Aux>
+        <h3>Tu pedido es el siguiente:</h3>
+        <ul>{totalIngredientes}</ul>
+        <p>
+          El valor total de la compra:{" "}
+          <strong>{this.props.hamburguerPrice.toFixed(2)}</strong>
+        </p>
+        <p>Continuar a Checkout pasarela de pago</p>
 
-export default orderSumary;
+        <Button clicked={this.props.cancelarCompra} btnType="Danger">
+          Cancelar
+        </Button>
+        <Button clicked={this.props.aceptarCompra} btnType="Success">
+          Continuar
+        </Button>
+      </Aux>
+    );
+  }
+}
+
+export default OrderSumary;
